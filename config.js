@@ -10,7 +10,7 @@ const CONFIG = {
   revista: "Publicaciones CCINEC | Nº 02",
 
   // Botón arriba a la derecha que lleva a la separata (bórralo para ocultarlo)
-  relacionado: { texto: "Ver separata", url: "separata/" },
+  relacionado: { texto: "Ver Separata", url: "Separata/" },
 
   // Lista de ediciones. La PRIMERA es la que se abre por defecto,
   // así que pon siempre el número más reciente arriba.
