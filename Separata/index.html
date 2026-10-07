@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<!-- El zoom de la página lo maneja el visor (vista ampliada), no el navegador -->
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<title>Separata CCINEC | Memoria 2022 - 2025</title>
+<meta name="description" content="Separata de Publicaciones CCINEC: memoria del Circuito de Cineclubes Cali 2022 - 2025.">
+<!-- Vista previa al compartir el enlace en WhatsApp o redes -->
+<meta property="og:title" content="Separata CCINEC | Nº 01 · Memoria 2022 - 2025">
+<meta property="og:description" content="Memoria del Circuito de Cineclubes Cali 2022 - 2025. Léela completa en línea.">
+<meta property="og:url" content="https://ccinec.github.io/Publicaciones_CCINEC/separata/">
+<meta property="og:image" content="https://ccinec.github.io/Publicaciones_CCINEC/separata/portada.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20x%3D%274%27%20y%3D%274%27%20width%3D%2724%27%20height%3D%2724%27%20rx%3D%273%27%20fill%3D%27%2380371c%27/%3E%3Cpath%20d%3D%27M16%207v18%27%20stroke%3D%27%23f4ece4%27%20stroke-width%3D%272%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<style>
+  /* ====== Colores: ajústalos a la identidad de la publicación ====== */
+  :root {
+    --fondo: #24100a;       /* café oscuro, de la portada terracota */
+    --superficie: #4d2414;  /* botones y menú */
+    --texto: #f4ece4;       /* crema */
+    --tenue: #c9ab9a;       /* contador y bordes */
+    --acento: #e0703f;      /* terracota de la portada, aclarado */
+    --enlace: #7aa7e0;      /* azul de los enlaces, aclarado para el fondo oscuro */
+    --resaltado: rgba(42, 98, 169, 0.25);   /* zonas de enlace al pasar el mouse */
+  }
+  * { box-sizing: border-box; margin: 0; }
+  /* La página es fija: nada se desplaza, rebota ni se aleja al pasar páginas */
+  html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+  body {
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: "Archivo", Arial, sans-serif;
+    display: flex; flex-direction: column;
+    position: fixed; inset: 0;
+    -webkit-text-size-adjust: 100%;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem 1rem; flex-wrap: wrap;
+    padding: 2rem 1rem;
+  }
+  h1 { font-size: 2.2rem; font-weight: 800; font-stretch: 100%; letter-spacing: 0.01em; }
+  .controles { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+  select, button, a.boton {
+    font: inherit; font-size: 0.95rem; color: var(--texto);
+    background: var(--superficie); border: 1px solid transparent;
+    border-radius: 4px; padding: 0.45rem 0.8rem; cursor: pointer;
+    text-decoration: none; line-height: 1.2;
+    touch-action: manipulation;   /* sin zoom por doble toque en los botones */
+  }
+  select:hover, button:hover, a.boton:hover { border-color: var(--tenue); }
+  button:disabled { opacity: 0.4; cursor: default; border-color: transparent; }
+  :focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+  [hidden] { display: none !important; }
+  main {
+    flex: 1; min-height: 0;
+    overflow: hidden;   /* la hoja que gira no tapa los botones ni el título */
+    display: flex; align-items: center; justify-content: center;
+    padding: 0.5rem 1rem;
+  }
+  #escenario {
+    width: 100%; max-width: 1400px; display: flex; justify-content: center;
+    touch-action: none;   /* el navegador no hace zoom ni desplaza: los gestos los maneja el visor */
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+  }
+  #libro { width: 100%; }
+  .pagina { background: #fff; }
+  .pagina img { width: 100%; height: 100%; object-fit: cover; display: block; -webkit-user-drag: none; pointer-events: none; }
+  /* Mientras una página se dibuja */
+  .pagina:not(.lista)::after {
+    content: "Cargando…"; position: absolute; inset: 0;
+    display: grid; place-items: center; color: #b3aaa4; font-size: 0.85rem;
+  }
+  .stf__block { box-shadow: none; }
+  /* Zonas clicables que vienen de los enlaces del PDF */
+  .enlace { position: absolute; z-index: 2; border-radius: 2px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .enlace:hover { background: var(--resaltado); }
+  .enlace:focus-visible { outline: 2px solid var(--acento); outline-offset: 0; }
+  .enlace.pista { animation: pista 1.4s ease-in-out 2; }
+  @keyframes pista { 50% { background: var(--resaltado); } }
+  @media (prefers-reduced-motion: reduce) { .enlace.pista { animation: none; } }
+  #nota {
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    margin: 0 1rem; padding: 0.5rem 0.75rem;
+    color: var(--texto); font-size: 0.92rem; line-height: 1.35; text-align: center;
+    border-top: 1px solid var(--superficie); border-bottom: 1px solid var(--superficie);
+  }
+  #nota svg { flex: none; color: var(--enlace); }
+  #nota-cerrar {
+    flex: none; background: none; color: var(--tenue);
+    font-size: 1.2rem; line-height: 1; padding: 0.2rem 0.45rem;
+  }
+  #aviso { color: var(--tenue); text-align: center; max-width: 34rem; line-height: 1.5; }
+  nav {
+    display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+    padding: 0.9rem 1rem 1.2rem;
+  }
+  #contador { min-width: 5.5rem; text-align: center; color: var(--tenue); font-variant-numeric: tabular-nums; }
+  #ampliar { display: inline-flex; align-items: center; gap: 0.35rem; }
+  #ampliar svg { flex: none; }
+
+  /* ====== Vista ampliada (zoom) ====== */
+  #zoom {
+    position: fixed; inset: 0; z-index: 50;
+    background: var(--fondo);
+    display: flex; flex-direction: column;
+  }
+  #zoom-area {
+    flex: 1; min-height: 0;
+    overflow: auto; display: flex;
+    padding: 8px;
+    touch-action: pan-x pan-y;   /* un dedo mueve la página; el pellizco lo maneja el visor */
+    overscroll-behavior: contain;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+    cursor: grab;
+  }
+  #zoom-area.arrastrando { cursor: grabbing; }
+  #zoom-hoja {
+    position: relative; margin: auto; flex: none;
+    background: #fff; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  }
+  #zoom-img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; -webkit-user-drag: none; pointer-events: none; }
+  #zoom-barra {
+    display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+    gap: 0.4rem; padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--superficie);
+  }
+  #zoom-barra button { min-width: 2.6rem; font-size: 1.05rem; }
+  #zoom-num { min-width: 5.5rem; text-align: center; color: var(--tenue); font-variant-numeric: tabular-nums; font-size: 0.9rem; }
+  .separador { width: 0.6rem; }
+
+  @media (max-width: 600px) {
+    header { padding: 1rem; }
+    h1 { font-size: 1.4rem; }
+  }
+  @media (max-width: 480px) {
+    #pantalla { display: none; }   /* iPhone no admite pantalla completa */
+    #nota { font-size: 0.82rem; text-align: left; justify-content: flex-start; padding: 0.4rem 0.25rem; }
+    nav { gap: 0.5rem; }
+    #ampliar span { display: none; }   /* en celular, solo el ícono de lupa */
+  }
+  /* En pantallas táctiles pequeñas se amplía pellizcando: sobran los botones − y + */
+  @media (max-width: 480px) and (pointer: coarse) {
+    #zoom-menos, #zoom-mas, .separador + .separador { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="titulo"></h1>
+  <div class="controles">
+    <select id="edicion" aria-label="Elegir edición"></select>
+    <a id="relacionado" class="boton" href="#" hidden></a>
+    <a id="descargar" class="boton" href="#" download hidden>Descargar PDF</a>
+    <button id="pantalla" type="button">Pantalla completa</button>
+  </div>
+</header>
+
+<p id="nota" hidden>
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <span id="nota-texto"></span>
+  <button id="nota-cerrar" type="button" aria-label="Cerrar nota">×</button>
+</p>
+
+<main>
+  <div id="escenario"><div id="libro"></div></div>
+  <p id="aviso">Cargando…</p>
+</main>
+
+<nav>
+  <button id="anterior" type="button" aria-label="Página anterior">Anterior</button>
+  <span id="contador" aria-live="polite"></span>
+  <button id="siguiente" type="button" aria-label="Página siguiente">Siguiente</button>
+  <button id="ampliar" type="button" aria-label="Ampliar página">
+    <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <span>Ampliar</span>
+  </button>
+</nav>
+
+<div id="zoom" role="dialog" aria-modal="true" aria-label="Página ampliada" hidden>
+  <div id="zoom-area">
+    <div id="zoom-hoja"><img id="zoom-img" alt=""></div>
+  </div>
+  <div id="zoom-barra">
+    <button id="zoom-ant" type="button" aria-label="Página anterior">‹</button>
+    <span id="zoom-num"></span>
+    <button id="zoom-sig" type="button" aria-label="Página siguiente">›</button>
+    <span class="separador"></span>
+    <button id="zoom-menos" type="button" aria-label="Alejar">−</button>
+    <button id="zoom-mas" type="button" aria-label="Acercar">+</button>
+    <span class="separador"></span>
+    <button id="zoom-cerrar" type="button">Cerrar</button>
+  </div>
+</div>
+
+<script src="lib/page-flip.browser.js"></script>
+<script src="config.js"></script>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const tactil = window.matchMedia("(pointer: coarse)").matches;
+
+let libro = null;          // el libro con efecto de página
+let paginas = [];          // un contenedor por página
+let fuente = null;         // de dónde salen las imágenes y los enlaces (PDF o imágenes)
+let edicion = null;        // edición abierta
+let proporcion = 1.414;    // alto / ancho de página (se ajusta solo al cargar)
+let carga = 0;             // evita mezclar páginas si se cambia de edición mientras carga
+
+document.title = CONFIG.revista;
+$("titulo").textContent = CONFIG.revista;
+
+CONFIG.ediciones.forEach((e) => {
+  const op = document.createElement("option");
+  op.value = e.carpeta;
+  op.textContent = e.nombre;
+  $("edicion").appendChild(op);
+});
+if (CONFIG.ediciones.length < 2) $("edicion").hidden = true;
+
+if (CONFIG.relacionado) {
+  $("relacionado").hidden = false;
+  $("relacionado").textContent = CONFIG.relacionado.texto;
+  $("relacionado").href = CONFIG.relacionado.url;
+}
+
+// Evita el zoom propio de Safari (el visor tiene su vista ampliada)
+document.addEventListener("gesturestart", (e) => e.preventDefault());
+
+function aviso(texto) {
+  $("aviso").hidden = !texto;
+  $("aviso").textContent = texto || "";
+}
+
+/* =====================================================================
+   Tamaño del libro
+   ===================================================================== */
+function paginasVisibles() {
+  return window.innerWidth - 32 >= 500 ? 2 : 1;   // igual al cambio a una página del visor
+}
+function ajustarTamano() {
+  const alto = window.innerHeight
+    - document.querySelector("header").offsetHeight
+    - $("nota").offsetHeight
+    - document.querySelector("nav").offsetHeight - 24;
+  const anchoMax = Math.max(250, alto * paginasVisibles() / proporcion);
+  $("escenario").style.maxWidth = Math.floor(anchoMax) + "px";
+}
+// Ancho en píxeles al que se dibuja cada página del libro: nítido sin gastar memoria de más
+function anchoDeDibujo() {
+  const css = Math.min($("escenario").clientWidth || 9999, parseFloat($("escenario").style.maxWidth) || 9999) / paginasVisibles();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  return Math.round(Math.min(1300, Math.max(600, css * dpr * 1.1)));
+}
+
+function actualizarContador() {
+  if (!libro) return;
+  const total = libro.getPageCount();
+  const i = libro.getCurrentPageIndex();
+  const vista = libro.getOrientation() === "landscape" && i > 0 && i < total - 1
+    ? `${i + 1}–${Math.min(i + 2, total)}` : `${i + 1}`;
+  $("contador").textContent = `${vista} de ${total}`;
+  $("anterior").disabled = i === 0;
+  $("siguiente").disabled = i >= total - (libro.getOrientation() === "landscape" ? 2 : 1);
+}
+
+/* =====================================================================
+   Cola de dibujo: una página a la vez, primero las más cercanas.
+   Así el celular no se satura y las páginas no quedan en blanco.
+   ===================================================================== */
+const tareas = [];
+let ocupado = false;
+function encolar(fn, prioridad) {
+  return new Promise((resolve, reject) => {
+    tareas.push({ fn, prioridad, resolve, reject });
+    tareas.sort((a, b) => b.prioridad - a.prioridad);
+    correrCola();
+  });
+}
+async function correrCola() {
+  if (ocupado) return;
+  const t = tareas.shift();
+  if (!t) return;
+  ocupado = true;
+  try { t.resolve(await t.fn()); } catch (err) { t.reject(err); }
+  ocupado = false;
+  correrCola();
+}
+
+const dibujadas = new Map();   // página -> dirección de su imagen
+const pendientes = new Set();
+const CERCA_ATRAS = 4, CERCA_ADELANTE = 7;
+
+function estaCerca(i) {
+  if (!libro) return false;
+  const c = libro.getCurrentPageIndex();
+  return i >= c - CERCA_ATRAS && i <= c + CERCA_ADELANTE;
+}
+
+function programarPaginas() {
+  if (!libro || !fuente) return;
+  const c = libro.getCurrentPageIndex();
+  const orden = [0, 1, 2, 3, -1, -2, 4, 5, 6, 7, -3, -4];
+  orden.forEach((d, n) => {
+    const i = c + d;
+    if (i < 0 || i >= paginas.length || dibujadas.has(i) || pendientes.has(i)) return;
+    pendientes.add(i);
+    const id = carga;
+    encolar(() => dibujarPagina(i, id), 50 - n)
+      .catch((err) => console.warn("Página", i + 1, err))
+      .finally(() => pendientes.delete(i));
+  });
+  // Libera la memoria de las páginas lejanas (se vuelven a dibujar al regresar)
+  for (const [i, url] of dibujadas) {
+    if (estaCerca(i)) continue;
+    const img = paginas[i] && paginas[i].querySelector("img");
+    if (img) img.remove();
+    if (paginas[i]) paginas[i].classList.remove("lista");
+    if (url.startsWith("blob:")) URL.revokeObjectURL(url);
+    dibujadas.delete(i);
+  }
+}
+
+async function dibujarPagina(i, id) {
+  if (id !== carga || !estaCerca(i) || dibujadas.has(i)) return;
+  const url = await fuente.imagen(i, anchoDeDibujo());
+  if (id !== carga || !paginas[i]) { if (url.startsWith("blob:")) URL.revokeObjectURL(url); return; }
+  const img = new Image();
+  img.alt = `Página ${i + 1}`;
+  img.src = url;
+  try { await img.decode(); } catch (e) {}
+  const anterior = paginas[i].querySelector("img");
+  if (anterior) anterior.remove();
+  paginas[i].prepend(img);
+  paginas[i].classList.add("lista");
+  dibujadas.set(i, url);
+  if (!paginas[i].dataset.enlaces) {
+    paginas[i].dataset.enlaces = "1";
+    pintarEnlaces(paginas[i], await fuente.enlaces(i));
+  }
+  destacarEnlaces();
+}
+
+/* =====================================================================
+   Enlaces: se guardan como datos (en % de la página) y se pintan
+   tanto en el libro como en la vista ampliada.
+   ===================================================================== */
+function pintarEnlaces(contenedor, datos) {
+  contenedor.querySelectorAll(".enlace").forEach((n) => n.remove());
+  for (const d of datos) {
+    const a = document.createElement("a");
+    a.className = "enlace";
+    a.style.left = d.x + "%";
+    a.style.top = d.y + "%";
+    a.style.width = d.w + "%";
+    a.style.height = d.h + "%";
+    if (d.url) {
+      a.href = d.url;
+      if (!d.url.startsWith("mailto:")) { a.target = "_blank"; a.rel = "noopener"; }
+    } else {
+      a.href = "#";
+      a.addEventListener("click", (e) => { e.preventDefault(); irAPagina(d.destino); });
+    }
+    a.title = d.titulo;
+    a.setAttribute("aria-label", d.titulo);
+    contenedor.appendChild(a);
+  }
+}
+
+function irAPagina(i) {
+  if (zoom.abierto) mostrarZoom(i);
+  else if (libro) libro.flip(i);
+}
+
+// La primera vez que se ve una página, sus enlaces destellan para que se noten
+const destacadas = new Set();
+function destacarEnlaces() {
+  if (!libro) return;
+  const actual = libro.getCurrentPageIndex();
+  const visibles = libro.getOrientation() === "landscape" ? [actual, actual + 1] : [actual];
+  for (const v of visibles) {
+    if (!paginas[v] || !paginas[v].dataset.enlaces || destacadas.has(v)) continue;
+    destacadas.add(v);
+    paginas[v].querySelectorAll(".enlace").forEach((e) => e.classList.add("pista"));
+  }
+}
+
+/* =====================================================================
+   El libro
+   ===================================================================== */
+function montarLibro(total) {
+  const contenedor = document.createElement("div");
+  contenedor.id = "libro";
+  $("escenario").replaceChildren(contenedor);
+  ajustarTamano();
+  const ancho = 1000, alto = Math.round(1000 * proporcion);
+  libro = new St.PageFlip(contenedor, {
+    width: ancho, height: alto,
+    size: "stretch",
+    minWidth: 250, maxWidth: ancho,
+    minHeight: Math.round(250 * proporcion), maxHeight: alto,
+    showCover: true,
+    showPageCorners: false,        // sin dobleces de esquina al rozar la página
+    swipeDistance: 60,             // hace falta un deslizamiento claro para pasar de página
+    flippingTime: 800,
+    maxShadowOpacity: 0.4,
+    mobileScrollSupport: false,
+    usePortrait: true,
+  });
+  paginas = Array.from({ length: total }, (_, i) => {
+    const div = document.createElement("div");
+    div.className = "pagina";
+    if (i === 0 || i === total - 1) div.dataset.density = "hard";
+    contenedor.appendChild(div);
+    return div;
+  });
+  libro.loadFromHTML(paginas);
+  // La librería reacomoda el libro con cada cambio de tamaño, incluso a mitad de un giro
+  // (en el iPhone, cada vez que aparece la barra de Safari). Eso lo controla el visor (más abajo).
+  window.removeEventListener("resize", libro.getUI().onResize);
+  libro.on("flip", () => { actualizarContador(); programarPaginas(); destacarEnlaces(); });
+  libro.on("changeOrientation", () => { actualizarContador(); programarPaginas(); });
+  actualizarContador();
+  programarPaginas();
+}
+
+/* ---------- Ediciones hechas con imágenes (001.jpg, 002.jpg…) ---------- */
+function abrirImagenes(ed, id) {
+  const ruta = (i) => `numeros/${ed.carpeta}/${String(i + 1).padStart(3, "0")}.${CONFIG.extension || "jpg"}`;
+  const primera = new Image();
+  primera.onerror = () => id === carga && aviso(
+    `No se encontró la página ${ruta(0)}. Revisa que la carpeta y los archivos se llamen igual que en config.js.`);
+  primera.onload = () => {
+    if (id !== carga) return;
+    aviso("");
+    proporcion = primera.naturalHeight / primera.naturalWidth;
+    fuente = {
+      total: ed.paginas,
+      imagen: async (i) => ruta(i),
+      imagenGrande: async (i) => ruta(i),
+      enlaces: async () => [],
+    };
+    montarLibro(ed.paginas);
+  };
+  primera.src = ruta(0);
+}
+
+/* ---------- Ediciones hechas desde un PDF (con enlaces) ---------- */
+let pdfjs = null;
+
+// Busca en una página de índice los números de página (alineados a la derecha)
+// y arma una zona por entrada: título, autor y número.
+function zonasDelIndice(textos, base) {
+  const numeros = textos
+    .filter((t) => /^\d{1,3}$/.test(t.s) && t.x > base.width * 0.6)
+    .sort((a, b) => a.y - b.y);
+  if (!numeros.length) return [];
+  const margen = Math.min(...textos.map((t) => t.x));
+  const altoMayor = Math.max(...numeros.map((n) => n.alto));
+  const altoMenor = Math.min(...numeros.map((n) => n.alto));
+  let limite = 0;   // la zona no puede subir más allá de la entrada anterior
+  return numeros.map((n) => {
+    const mismaLinea = (t) => Math.abs(t.y - n.y) < n.alto * 0.6;
+    const encabezado = altoMayor > altoMenor * 1.1 && n.alto > altoMenor * 1.1;
+    // Las entradas sangradas incluyen las líneas de título que están encima del número
+    const entrada = textos.filter((t) => mismaLinea(t) ||
+      (!encabezado && t.y < n.y && t.y > limite + 1 && t.x > margen + 10 && t !== n));
+    const arriba = Math.max(limite, Math.min(...entrada.map((t) => t.y - t.alto)) - n.alto * 0.4);
+    const abajo = n.y + n.alto * 0.45;
+    limite = abajo;
+    return {
+      numero: parseInt(n.s, 10),
+      izq: Math.min(...entrada.map((t) => t.x)) - n.alto * 0.5,
+      der: n.der + n.alto * 0.6,
+      arriba, abajo,
+    };
+  });
+}
+
+function crearFuentePDF(doc, ed) {
+  const cacheEnlaces = new Map();
+
+  async function imagen(i, ancho, calidad = 0.86) {
+    const pagina = await doc.getPage(i + 1);
+    const base = pagina.getViewport({ scale: 1 });
+    const vista = pagina.getViewport({ scale: ancho / base.width });
+    const lienzo = document.createElement("canvas");
+    lienzo.width = Math.round(vista.width);
+    lienzo.height = Math.round(vista.height);
+    await pagina.render({ canvas: lienzo, viewport: vista, background: "#ffffff" }).promise;
+    const blob = await new Promise((r) => lienzo.toBlob(r, "image/jpeg", calidad));
+    lienzo.width = lienzo.height = 0;   // libera la memoria del lienzo (importante en iPhone)
+    pagina.cleanup();
+    return URL.createObjectURL(blob);
+  }
+
+  async function calcularEnlaces(i) {
+    const pagina = await doc.getPage(i + 1);
+    const base = pagina.getViewport({ scale: 1 });
+    const pct = (r) => ({
+      x: r.izq / base.width * 100, y: r.arriba / base.height * 100,
+      w: (r.der - r.izq) / base.width * 100, h: (r.abajo - r.arriba) / base.height * 100,
+    });
+    const extras = (ed.enlacesExtra || []).filter((x) => x.pagina === i + 1);
+    const conIndice = ed.indice && ed.indice.paginas.includes(i + 1);
+    let textos = [];
+    if (conIndice || extras.length) {
+      textos = (await pagina.getTextContent()).items
+        .filter((t) => t.str.trim())
+        .map((t) => {
+          const [x, y] = base.convertToViewportPoint(t.transform[4], t.transform[5]);
+          const [der] = base.convertToViewportPoint(t.transform[4] + t.width, t.transform[5]);
+          const [, yAlto] = base.convertToViewportPoint(t.transform[4], t.transform[5] + t.height);
+          return { s: t.str.trim(), crudo: t.str, x, y, der, alto: Math.abs(y - yAlto) };
+        });
+    }
+    const datos = [];
+
+    // Índice: cada entrada con número de página lleva a su artículo
+    if (conIndice) {
+      for (const z of zonasDelIndice(textos, base)) {
+        const destino = z.numero + (ed.indice.desfase || 0) - 1;
+        if (destino < 0 || destino >= doc.numPages) continue;
+        datos.push({ ...pct(z), destino, titulo: `Ir a la página ${z.numero}` });
+      }
+    }
+
+    // Enlaces que vienen dentro del PDF
+    for (const a of await pagina.getAnnotations({ intent: "display" })) {
+      if (a.subtype !== "Link") continue;
+      const [x1, y1] = base.convertToViewportPoint(a.rect[0], a.rect[1]);
+      const [x2, y2] = base.convertToViewportPoint(a.rect[2], a.rect[3]);
+      const r = pct({ izq: Math.min(x1, x2), arriba: Math.min(y1, y2), der: Math.max(x1, x2), abajo: Math.max(y1, y2) });
+      if (a.url || a.unsafeUrl) {
+        const url = a.url || a.unsafeUrl;
+        datos.push({ ...r, url, titulo: url.replace(/^mailto:/, "") });
+      } else if (a.dest) {
+        const destino = typeof a.dest === "string" ? await doc.getDestination(a.dest) : a.dest;
+        if (!destino) continue;
+        const ref = destino[0];
+        const indice = typeof ref === "object" ? await doc.getPageIndex(ref) : ref;
+        datos.push({ ...r, destino: indice, titulo: `Ir a la página ${indice + 1}` });
+      }
+    }
+
+    // Enlaces agregados en config.js: se ubican buscando el texto en la página
+    for (const x of extras) {
+      const t = textos.find((t) => t.crudo.includes(x.texto));
+      if (!t) { console.warn(`No se encontró "${x.texto}" en la página ${x.pagina}`); continue; }
+      const desde = t.crudo.indexOf(x.texto) / t.crudo.length;
+      const hasta = (t.crudo.indexOf(x.texto) + x.texto.length) / t.crudo.length;
+      const ancho = t.der - t.x;
+      datos.push({
+        ...pct({ izq: t.x + ancho * desde - 2, der: t.x + ancho * hasta + 2, arriba: t.y - t.alto - 2, abajo: t.y + t.alto * 0.3 + 2 }),
+        url: x.url, titulo: x.titulo || x.url.replace(/^mailto:/, ""),
+      });
+    }
+    return datos;
+  }
+
+  return {
+    total: doc.numPages,
+    imagen: (i, ancho) => imagen(i, ancho),
+    imagenGrande: (i, ancho) => imagen(i, ancho, 0.9),
+    enlaces(i) {
+      if (!cacheEnlaces.has(i)) cacheEnlaces.set(i, calcularEnlaces(i).catch(() => []));
+      return cacheEnlaces.get(i);
+    },
+  };
+}
+
+async function abrirPDF(ed, id) {
+  try {
+    if (!pdfjs) {
+      pdfjs = await import("./lib/pdfjs/pdf.min.mjs");
+      pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdfjs/pdf.worker.min.mjs";
+    }
+    const doc = await pdfjs.getDocument({
+      url: ed.pdf,
+      standardFontDataUrl: "lib/pdfjs/standard_fonts/",
+      wasmUrl: "lib/pdfjs/wasm/",
+    }).promise;
+    if (id !== carga) return;
+    const primera = (await doc.getPage(1)).getViewport({ scale: 1 });
+    proporcion = primera.height / primera.width;
+    fuente = crearFuentePDF(doc, ed);
+    aviso("");
+    montarLibro(doc.numPages);
+  } catch (err) {
+    console.error(err);
+    if (id === carga) aviso(location.protocol === "file:"
+      ? "Las ediciones en PDF solo se ven publicadas en internet (o con un servidor local), no abriendo el archivo con doble clic."
+      : `No se pudo abrir ${ed.pdf}. Revisa que la ruta en config.js sea correcta.`);
+  }
+}
+
+function abrir(carpeta) {
+  const ed = CONFIG.ediciones.find((e) => e.carpeta === carpeta) || CONFIG.ediciones[0];
+  const id = ++carga;
+  edicion = ed;
+  $("edicion").value = ed.carpeta;
+  history.replaceState(null, "", `?edicion=${encodeURIComponent(ed.carpeta)}`);
+
+  $("descargar").hidden = !ed.pdf || ed.descargable === false;
+  if (ed.pdf) $("descargar").href = ed.pdf;
+
+  if (zoom.abierto) cerrarZoom(true);
+  if (libro) { libro.destroy(); libro = null; }
+  for (const url of dibujadas.values()) if (url.startsWith("blob:")) URL.revokeObjectURL(url);
+  dibujadas.clear(); pendientes.clear(); destacadas.clear(); tareas.length = 0;
+  paginas = []; fuente = null;
+  $("escenario").replaceChildren();
+  $("contador").textContent = "";
+  aviso(CONFIG.textoCarga || "Cargando…");
+
+  mostrarNota(ed);
+  if (ed.pdf && !ed.paginas) abrirPDF(ed, id);
+  else abrirImagenes(ed, id);
+}
+
+// Nota de lectura: se puede cerrar y el navegador lo recuerda para esa edición
+function mostrarNota(ed) {
+  let cerrada = false;
+  try { cerrada = localStorage.getItem("nota-cerrada-" + ed.carpeta) === "1"; } catch (e) {}
+  const pistaZoom = tactil
+    ? "Toca dos veces o pellizca una página para ampliarla."
+    : "Haz doble clic en una página para ampliarla.";
+  const texto = ed.nota ? `${ed.nota} ${CONFIG.pistaZoom === false ? "" : pistaZoom}`.trim() : "";
+  $("nota").hidden = !texto || cerrada;
+  $("nota-texto").textContent = texto;
+  $("nota-cerrar").onclick = () => {
+    $("nota").hidden = true;
+    try { localStorage.setItem("nota-cerrada-" + ed.carpeta, "1"); } catch (e) {}
+    ajustarTamano();
+    if (libro) libro.update();
+  };
+}
+
+/* =====================================================================
+   Vista ampliada (zoom)
+   - Se abre con el botón de lupa, con doble toque / doble clic sobre una
+     página o pellizcando la página con dos dedos.
+   - Dentro: pellizcar para acercar/alejar, un dedo para moverse,
+     doble toque para alternar, deslizar para cambiar de página
+     (sin ampliar), y los enlaces siguen funcionando.
+   ===================================================================== */
+const ESCALA_MAX = 5;
+const zoom = { abierto: false, i: 0, escala: 1, baseW: 0, baseH: 0, grandes: new Map(), pedido: 0 };
+
+function medirZoom() {
+  const area = $("zoom-area");
+  const W = area.clientWidth - 16, H = area.clientHeight - 16;
+  let w = W, h = W * proporcion;
+  if (h > H) { h = H; w = H / proporcion; }
+  zoom.baseW = Math.max(100, w);
+  zoom.baseH = Math.max(100, h);
+}
+
+// Cambia la escala manteniendo fijo el punto (x, y) de la pantalla
+function aplicarEscala(nueva, x, y) {
+  const area = $("zoom-area"), hoja = $("zoom-hoja");
+  nueva = Math.min(ESCALA_MAX, Math.max(1, nueva));
+  const ra = area.getBoundingClientRect();
+  if (x == null) { x = ra.left + ra.width / 2; y = ra.top + ra.height / 2; }
+  const r = hoja.getBoundingClientRect();
+  const fx = Math.min(1, Math.max(0, (x - r.left) / r.width));
+  const fy = Math.min(1, Math.max(0, (y - r.top) / r.height));
+  zoom.escala = nueva;
+  hoja.style.width = zoom.baseW * nueva + "px";
+  hoja.style.height = zoom.baseH * nueva + "px";
+  const r2 = hoja.getBoundingClientRect();
+  area.scrollLeft += (r2.left + fx * r2.width) - x;
+  area.scrollTop += (r2.top + fy * r2.height) - y;
+  $("zoom-menos").disabled = nueva <= 1;
+  $("zoom-mas").disabled = nueva >= ESCALA_MAX;
+}
+
+// Centra la vista en una fracción (0–1) de la página
+function centrarEn(fx, fy) {
+  const area = $("zoom-area"), hoja = $("zoom-hoja");
+  area.scrollLeft = hoja.offsetLeft + fx * hoja.offsetWidth - area.clientWidth / 2;
+  area.scrollTop = hoja.offsetTop + fy * hoja.offsetHeight - area.clientHeight / 2;
+}
+
+async function mostrarZoom(i, escala = 1, fx = 0.5, fy = 0.5) {
+  if (!fuente) return;
+  i = Math.max(0, Math.min(paginas.length - 1, i));
+  zoom.i = i;
+  const pedido = ++zoom.pedido;
+  const img = $("zoom-img");
+  // Primero la imagen del libro (inmediata), luego la de alta resolución
+  const rapida = zoom.grandes.get(i) || dibujadas.get(i);
+  img.style.visibility = rapida ? "visible" : "hidden";
+  if (rapida) img.src = rapida;
+  $("zoom-num").textContent = `${i + 1} de ${paginas.length}`;
+  $("zoom-ant").disabled = i === 0;
+  $("zoom-sig").disabled = i >= paginas.length - 1;
+
+  medirZoom();
+  zoom.escala = 1;
+  aplicarEscala(1);
+  if (escala > 1) { aplicarEscala(escala); centrarEn(fx, fy); }
+  else { $("zoom-area").scrollTop = 0; $("zoom-area").scrollLeft = 0; }
+
+  const hoja = $("zoom-hoja");
+  hoja.querySelectorAll(".enlace").forEach((n) => n.remove());
+  const datos = await fuente.enlaces(i);
+  if (pedido === zoom.pedido) pintarEnlaces(hoja, datos);
+
+  if (!zoom.grandes.has(i)) {
+    const ancho = Math.round(Math.min(2400, zoom.baseW * Math.min(window.devicePixelRatio || 1, 2) * 2.5));
+    try {
+      const url = await encolar(() => fuente.imagenGrande(i, ancho), 100);
+      zoom.grandes.set(i, url);
+      // Guarda solo las 3 últimas ampliadas
+      for (const [k, u] of zoom.grandes) {
+        if (zoom.grandes.size <= 3) break;
+        if (k === i) continue;
+        if (u.startsWith("blob:")) URL.revokeObjectURL(u);
+        zoom.grandes.delete(k);
+      }
+    } catch (err) { console.warn(err); }
+  }
+  if (pedido === zoom.pedido && zoom.grandes.has(i)) {
+    const grande = new Image();
+    grande.src = zoom.grandes.get(i);
+    try { await grande.decode(); } catch (e) {}
+    if (pedido === zoom.pedido) { img.src = grande.src; img.style.visibility = "visible"; }
+  }
+}
+
+function abrirZoom(i, escala = 1, fx = 0.5, fy = 0.5) {
+  if (!fuente || zoom.abierto) return;
+  zoom.abierto = true;
+  $("zoom").hidden = false;
+  try { history.pushState({ zoom: true }, ""); } catch (e) {}
+  mostrarZoom(i, escala, fx, fy);
+}
+
+function cerrarZoom(desdeHistorial) {
+  if (!zoom.abierto) return;
+  zoom.abierto = false;
+  zoom.pedido++;
+  $("zoom").hidden = true;
+  if (libro && !estaVisibleEnLibro(zoom.i)) {
+    libro.turnToPage(zoom.i);
+    actualizarContador(); programarPaginas(); destacarEnlaces();
+  }
+  if (!desdeHistorial && history.state && history.state.zoom) history.back();
+  $("ampliar").focus({ preventScroll: true });
+}
+window.addEventListener("popstate", () => { if (zoom.abierto) cerrarZoom(true); });
+
+function estaVisibleEnLibro(i) {
+  const c = libro.getCurrentPageIndex();
+  return i === c || (libro.getOrientation() === "landscape" && i === c + 1);
+}
+
+// Página del libro que está bajo un punto de la pantalla, y en qué parte de ella
+function paginaEnPunto(x, y) {
+  for (const el of document.elementsFromPoint(x, y)) {
+    const p = el.closest && el.closest(".pagina");
+    const i = paginas.indexOf(p);
+    if (i >= 0) {
+      const r = p.getBoundingClientRect();
+      return { i, fx: (x - r.left) / r.width, fy: (y - r.top) / r.height };
+    }
+  }
+  return { i: libro ? libro.getCurrentPageIndex() : 0, fx: 0.5, fy: 0.5 };
+}
+
+$("ampliar").onclick = () => libro && abrirZoom(libro.getCurrentPageIndex());
+$("zoom-cerrar").onclick = () => cerrarZoom();
+$("zoom-ant").onclick = () => mostrarZoom(zoom.i - 1);
+$("zoom-sig").onclick = () => mostrarZoom(zoom.i + 1);
+$("zoom-mas").onclick = () => aplicarEscala(zoom.escala * 1.5);
+$("zoom-menos").onclick = () => aplicarEscala(zoom.escala / 1.5);
+
+// --- Gestos táctiles: pellizco, doble toque y deslizamiento ---
+const distancia = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+const puntoMedio = (t) => ({ x: (t[0].clientX + t[1].clientX) / 2, y: (t[0].clientY + t[1].clientY) / 2 });
+let pellizco = null;     // gesto de dos dedos en curso
+let toque = null;        // inicio del toque de un dedo
+let ultimoToque = null;  // para reconocer el doble toque
+
+document.addEventListener("touchstart", (e) => {
+  const enLibro = !zoom.abierto && e.target.closest && e.target.closest("#escenario");
+  const enZoom = zoom.abierto && e.target.closest && e.target.closest("#zoom-area");
+  if (e.touches.length === 2 && (enLibro || enZoom || pellizco)) {
+    e.preventDefault();
+    e.stopPropagation();   // la librería del libro no debe ver el segundo dedo
+    toque = null;
+    if (enLibro && libro) {
+      try { libro.getUI().touchPoint = null; } catch (err) {}   // cancela el giro que iba a empezar
+      const m = puntoMedio(e.touches);
+      const p = paginaEnPunto(m.x, m.y);
+      abrirZoom(p.i, 1, p.fx, p.fy);
+    }
+    pellizco = { d0: distancia(e.touches), e0: zoom.escala, minimo: 1 };
+    return;
+  }
+  if (e.touches.length === 1) {
+    const t = e.touches[0];
+    toque = { x: t.clientX, y: t.clientY, tiempo: Date.now(), enLibro, enZoom, enlace: !!(e.target.closest && e.target.closest(".enlace")) };
+  }
+}, { capture: true, passive: false });
+
+document.addEventListener("touchmove", (e) => {
+  if (!pellizco || e.touches.length !== 2) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const proporcionGesto = distancia(e.touches) / pellizco.d0;
+  pellizco.minimo = Math.min(pellizco.minimo, proporcionGesto);
+  const m = puntoMedio(e.touches);
+  aplicarEscala(pellizco.e0 * proporcionGesto, m.x, m.y);
+}, { capture: true, passive: false });
+
+document.addEventListener("touchend", (e) => {
+  if (pellizco) {
+    if (e.touches.length < 2) {
+      // Pellizcar hacia adentro sin ampliar cierra la vista ampliada
+      if (zoom.abierto && pellizco.e0 <= 1.01 && pellizco.minimo < 0.75) cerrarZoom();
+      pellizco = null;
+    }
+    return;
+  }
+  if (!toque || e.touches.length) return;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - toque.x, dy = t.clientY - toque.y;
+  const dur = Date.now() - toque.tiempo;
+  const inicio = toque;
+  toque = null;
+
+  // Deslizamiento horizontal
+  if (Math.abs(dx) > 60 && Math.abs(dy) < 80 && dur < 500) {
+    ultimoToque = null;
+    if (inicio.enZoom && zoom.escala <= 1.01) { mostrarZoom(zoom.i + (dx < 0 ? 1 : -1)); return; }
+    // Sobre los enlaces la librería no reconoce el deslizamiento: lo hace el visor
+    if (inicio.enlace && inicio.enLibro && libro) {
+      e.preventDefault();   // no abre el enlace
+      if (dx < 0) libro.flipNext(); else libro.flipPrev();
+    }
+    return;
+  }
+
+  // Toque corto: ¿es el segundo de un doble toque?
+  if (Math.hypot(dx, dy) < 12 && dur < 300) {
+    const ahora = Date.now();
+    if (ultimoToque && ahora - ultimoToque.tiempo < 320 &&
+        Math.hypot(t.clientX - ultimoToque.x, t.clientY - ultimoToque.y) < 35) {
+      ultimoToque = null;
+      if (inicio.enZoom) {
+        e.preventDefault();
+        aplicarEscala(zoom.escala > 1.2 ? 1 : 2.5, t.clientX, t.clientY);
+      } else if (inicio.enLibro && !inicio.enlace) {
+        e.preventDefault();
+        const p = paginaEnPunto(t.clientX, t.clientY);
+        abrirZoom(p.i, 2.5, p.fx, p.fy);
+      }
+      return;
+    }
+    ultimoToque = { x: t.clientX, y: t.clientY, tiempo: ahora };
+  }
+}, { capture: true, passive: false });
+
+// --- Ratón y teclado (computador) ---
+$("escenario").addEventListener("dblclick", (e) => {
+  if (e.target.closest(".enlace")) return;
+  const p = paginaEnPunto(e.clientX, e.clientY);
+  abrirZoom(p.i, 2.5, p.fx, p.fy);
+});
+$("zoom-area").addEventListener("dblclick", (e) => {
+  if (e.target.closest(".enlace")) return;
+  aplicarEscala(zoom.escala > 1.2 ? 1 : 2.5, e.clientX, e.clientY);
+});
+// Pellizco del touchpad o Ctrl + rueda: acercar y alejar
+$("zoom-area").addEventListener("wheel", (e) => {
+  if (!e.ctrlKey) return;
+  e.preventDefault();
+  aplicarEscala(zoom.escala * Math.exp(-e.deltaY * 0.01), e.clientX, e.clientY);
+}, { passive: false });
+// Arrastrar con el ratón para moverse por la página ampliada
+let arrastre = null;
+$("zoom-area").addEventListener("pointerdown", (e) => {
+  if (e.pointerType !== "mouse" || e.button !== 0 || e.target.closest(".enlace")) return;
+  const area = $("zoom-area");
+  arrastre = { x: e.clientX, y: e.clientY, sl: area.scrollLeft, st: area.scrollTop };
+  area.classList.add("arrastrando");
+});
+window.addEventListener("pointermove", (e) => {
+  if (!arrastre) return;
+  const area = $("zoom-area");
+  area.scrollLeft = arrastre.sl - (e.clientX - arrastre.x);
+  area.scrollTop = arrastre.st - (e.clientY - arrastre.y);
+});
+window.addEventListener("pointerup", () => { arrastre = null; $("zoom-area").classList.remove("arrastrando"); });
+
+document.addEventListener("keydown", (e) => {
+  if (zoom.abierto) {
+    if (e.key === "Escape") cerrarZoom();
+    else if (e.key === "ArrowLeft") mostrarZoom(zoom.i - 1);
+    else if (e.key === "ArrowRight") mostrarZoom(zoom.i + 1);
+    else if (e.key === "+" || e.key === "=") aplicarEscala(zoom.escala * 1.5);
+    else if (e.key === "-") aplicarEscala(zoom.escala / 1.5);
+    return;
+  }
+  if (!libro || e.target.tagName === "SELECT") return;
+  if (e.key === "ArrowLeft") libro.flipPrev();
+  if (e.key === "ArrowRight") libro.flipNext();
+});
+
+/* =====================================================================
+   Cambios de tamaño
+   En el celular, la barra del navegador aparece y desaparece al tocar la
+   pantalla. Solo se reacomoda el libro si cambia el ancho (al girar el
+   teléfono) o el alto cambia mucho, y nunca en medio de un giro de página.
+   ===================================================================== */
+let medida = { w: window.innerWidth, h: window.innerHeight };
+let esperaResize = null;
+window.addEventListener("resize", () => {
+  clearTimeout(esperaResize);
+  esperaResize = setTimeout(function reacomodar() {
+    if (zoom.abierto) {
+      const e = zoom.escala;
+      medirZoom(); zoom.escala = 1; aplicarEscala(1); aplicarEscala(e);
+    }
+    const w = window.innerWidth, h = window.innerHeight;
+    if (w === medida.w && Math.abs(h - medida.h) < 120) return;
+    if (libro && libro.getState && libro.getState() !== "read") {
+      esperaResize = setTimeout(reacomodar, 300);
+      return;
+    }
+    medida = { w, h };
+    ajustarTamano();
+    if (libro) libro.update();
+  }, 250);
+});
+
+$("anterior").onclick = () => libro && libro.flipPrev();
+$("siguiente").onclick = () => libro && libro.flipNext();
+$("edicion").onchange = (e) => abrir(e.target.value);
+
+$("pantalla").onclick = () => {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+};
+
+// Abre la edición indicada en el enlace (?edicion=02) o la más reciente
+abrir(new URLSearchParams(location.search).get("edicion") || CONFIG.ediciones[0].carpeta);
+</script>
+</body>
+</html>

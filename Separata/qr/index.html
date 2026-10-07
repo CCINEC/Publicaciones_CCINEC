@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<!--
+  REDIRECCIÓN PARA EL CÓDIGO QR
+  El QR impreso apunta siempre a esta página (https://ccinec.github.io/Publicaciones_CCINEC/separata/qr/).
+  Para cambiar a dónde lleva, edita SOLO la dirección de abajo
+  en las DOS líneas marcadas. El QR no se vuelve a imprimir.
+-->
+<meta http-equiv="refresh" content="0; url=../?edicion=01">   <!-- ① cambia aquí -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abriendo la separata…</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #24100a; color: #f4ece4;
+         display: grid; place-items: center; min-height: 100vh; margin: 0; padding: 1rem; }
+  a { color: #7aa7e0; }
+</style>
+</head>
+<body>
+  <p>Abriendo la separata… Si no avanza, <a id="enlace" href="../?edicion=01">toca aquí</a>.</p>
+  <script>
+    const DESTINO = "../?edicion=01";   // ② y aquí (la misma dirección)
+    document.getElementById("enlace").href = DESTINO;
+    location.replace(DESTINO);
+  </script>
+</body>
+</html>
