@@ -10,7 +10,7 @@ const CONFIG = {
   revista: "Separata CCINEC | Nº 01",
 
   // Botón arriba a la derecha que lleva de vuelta a la revista (bórralo para ocultarlo)
-  relacionado: { texto: "Ver revista", url: "../" },
+  relacionado: { texto: "Ver Revista", url: "../" },
 
   // Lista de ediciones (mismas opciones que en la revista).
   // La separata no tiene índice: sus enlaces son los textos en azul, que ya vienen en el PDF.
