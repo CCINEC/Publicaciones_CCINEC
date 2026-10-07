@@ -2,7 +2,7 @@
    CONFIGURACIÓN DE LA SEPARATA
    Este es el único archivo que necesitas editar para
    publicar números nuevos.
-   Sitio: https://ccinec.github.io/Publicaciones_CCINEC/separata/
+   Sitio: https://ccinec.github.io/Publicaciones_CCINEC/Separata/
    ========================================================= */
 
 const CONFIG = {
