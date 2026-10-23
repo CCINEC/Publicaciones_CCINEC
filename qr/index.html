@@ -8,7 +8,7 @@
   Para cambiar a dónde lleva, edita SOLO la dirección de abajo
   en las DOS líneas marcadas. El QR no se vuelve a imprimir.
 -->
-<meta http-equiv="refresh" content="0; url=../?edicion=02">   <!-- ① cambia aquí -->
+<meta http-equiv="refresh" content="0; url=../?edicion=02&utm_source=qr">   <!-- ① cambia aquí -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Abriendo la revista…</title>
 <style>
@@ -18,9 +18,9 @@
 </style>
 </head>
 <body>
-  <p>Abriendo la revista… Si no avanza, <a id="enlace" href="../?edicion=02">toca aquí</a>.</p>
+  <p>Abriendo la revista… Si no avanza, <a id="enlace" href="../?edicion=02&utm_source=qr">toca aquí</a>.</p>
   <script>
-    const DESTINO = "../?edicion=02";   // ② y aquí (la misma dirección)
+    const DESTINO = "../?edicion=02&utm_source=qr";   // ② y aquí (la misma dirección)
     document.getElementById("enlace").href = DESTINO;
     location.replace(DESTINO);
   </script>
