@@ -423,10 +423,25 @@ function montarLibro(total) {
   // La librería reacomoda el libro con cada cambio de tamaño, incluso a mitad de un giro
   // (en el iPhone, cada vez que aparece la barra de Safari). Eso lo controla el visor (más abajo).
   window.removeEventListener("resize", libro.getUI().onResize);
-  libro.on("flip", () => { actualizarContador(); programarPaginas(); destacarEnlaces(); });
+  libro.on("flip", () => { actualizarContador(); programarPaginas(); destacarEnlaces(); contarPagina(); });
   libro.on("changeOrientation", () => { actualizarContador(); programarPaginas(); });
   actualizarContador();
   programarPaginas();
+}
+
+/* ---------- Estadísticas (GoatCounter): cuenta cada página leída una vez por visita ---------- */
+const paginasContadas = new Set();
+function contarPagina() {
+  if (!libro || !window.goatcounter || !window.goatcounter.count) return;
+  const cuadernillo = location.pathname.toLowerCase().includes("/separata/") ? "separata" : "revista";
+  const n = libro.getCurrentPageIndex() + 1;
+  if (paginasContadas.has(n)) return;
+  paginasContadas.add(n);
+  window.goatcounter.count({
+    path: `${cuadernillo}-pagina-${String(n).padStart(2, "0")}`,
+    title: `${cuadernillo === "separata" ? "Separata" : "Revista"} · página ${n}`,
+    event: true,
+  });
 }
 
 /* ---------- Ediciones hechas con imágenes (001.jpg, 002.jpg…) ---------- */
@@ -604,7 +619,10 @@ function abrir(carpeta) {
   const id = ++carga;
   edicion = ed;
   $("edicion").value = ed.carpeta;
-  history.replaceState(null, "", `?edicion=${encodeURIComponent(ed.carpeta)}`);
+  // Conserva ?utm_source=qr para que las estadísticas distingan las visitas que llegan por el QR
+  const params = new URLSearchParams(location.search);
+  params.set("edicion", ed.carpeta);
+  history.replaceState(null, "", `?${params}`);
 
   $("descargar").hidden = !ed.pdf || ed.descargable === false;
   if (ed.pdf) $("descargar").href = ed.pdf;
@@ -953,5 +971,8 @@ $("pantalla").onclick = () => {
 // Abre la edición indicada en el enlace (?edicion=02) o la más reciente
 abrir(new URLSearchParams(location.search).get("edicion") || CONFIG.ediciones[0].carpeta);
 </script>
+<!-- Estadísticas de visitas (GoatCounter, sin cookies) -->
+<script data-goatcounter="https://corrinche-creativo.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
